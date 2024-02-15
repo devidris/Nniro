@@ -167,7 +167,6 @@ function CanvasStage() {
 
   // scale logic for mobile
   const handleMultiTouch = (e: any) => {
-    if (isLoading || canvasesLoading) return;
     e.evt.preventDefault();
 
     var touch1 = e.evt.touches[0];

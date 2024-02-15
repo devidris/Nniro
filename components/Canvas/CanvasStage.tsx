@@ -457,12 +457,13 @@ function CanvasStage() {
   return (
     <div
       ref={containerRef}
-      className="absolute mt-[80px] max-h-[calc(100vh-80px) z-[19] inset-0 h-full w-full "
-      style={
-        scale >= 6 || newScale > 2
-          ? { backgroundColor: "white" }
-          : { backgroundColor: "rgb(243, 244, 246, 1)" }
-      }
+      className="absolute mt-[80px] z-[19] inset-0 "
+      style={{
+        width: "110vw",
+        height: "110vh",
+        backgroundColor:
+          scale >= 6 || newScale > 2 ? "white" : "rgba(243, 244, 246, 1)",
+      }}
     >
       <Stage
         id="stage"

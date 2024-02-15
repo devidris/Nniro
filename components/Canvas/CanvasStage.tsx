@@ -202,7 +202,9 @@ function CanvasStage() {
 
       const scaleChange = dist / lastDist;
       const newScale = stage.scaleX() * scaleChange;
-
+      if (newScale > 1) {
+        return;
+      }
       if (newScale > MAX_SCALE || newScale < MIN_SCALE) {
         return;
       }
@@ -461,8 +463,8 @@ function CanvasStage() {
       className="absolute mt-[80px] max-h-[calc(100vh-80px) z-[19] inset-0 h-full w-full "
       style={
         scale >= 6 || newScale > 2
-          ? { backgroundImage: `url('${fullPxImage}')` }
-          : { backgroundImage: `url('${fullPxImage}')` }
+          ? { backgroundColor: "white" }
+          : { backgroundColor: "rgb(243, 244, 246, 1)" }
       }
     >
       <Stage

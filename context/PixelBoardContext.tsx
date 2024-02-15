@@ -184,7 +184,7 @@ const PixelContextProvider = ({ children }: { children: React.ReactNode }) => {
   function checkAllowedHiRes({ x2, x1, y2, y1 }: Segment) {
     const elements = (x2 - x1) * (y2 - y1);
     // sl(elements);
-    if (elements <= 2000 ?? elements >= 1100) {
+    if (elements < 9000) {
       return true;
     }
 

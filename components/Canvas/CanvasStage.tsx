@@ -18,6 +18,7 @@ const borderPX = 0.01;
 const MAX_SCALE = 350;
 const MIN_SCALE = 0.378;
 const ZOOM_THRESHOLD = 1;
+let FIRST_LOAD = true;
 
 function CanvasStage() {
   const stageRef = useRef<Konva.Stage>(null);
@@ -87,12 +88,16 @@ function CanvasStage() {
   }, []);
 
   useEffect(() => {
-    const initialMinScale = (window.innerWidth + 1) / boardSize || 1;
-    setBoardConfig({
+    const initialMinScale =
+      (window.innerWidth + 1) / boardSize > 1
+        ? (window.innerWidth + 1) / boardSize
+        : 1;
+    const option = {
       minScale: initialMinScale,
       scale: initialMinScale,
       maxScale: window.innerWidth,
-    });
+    };
+    setBoardConfig(option);
     setStage({ scale: initialMinScale });
     // if (containerRef.current?.clientWidth) {
     //   setMounted(true);
@@ -217,7 +222,11 @@ function CanvasStage() {
             : stage.scaleX() * (dist / lastDist) < MIN_SCALE
             ? MIN_SCALE
             : stage.scaleX() * (dist / lastDist);
-
+        if (dist > lastDist) {
+          scale *= 1.15;
+        } else {
+          scale /= 1.15;
+        }
         stage.scaleX(scale);
         stage.scaleY(scale);
 
@@ -491,7 +500,7 @@ function CanvasStage() {
         width={windowArea.width}
         height={windowArea.height}
         x={position.x}
-        y={window.innerWidth < mobileScreen ? centerForMobile : position.y}
+        y={position.y}
         onWheel={onWheelChange}
         onDragEnd={onDragEnd}
         onMouseDown={(e) => {

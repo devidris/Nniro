@@ -210,7 +210,16 @@ function CanvasStage() {
       const offsetY = (newCenter.y - stagePos.y) * (1 - scaleChange);
 
       stage.scale({ x: newScale, y: newScale });
-      // stage.position({ x: stagePos.x + offsetX, y: stagePos.y + offsetY });
+      console.log(stagePos.x + offsetX, stagePos.y + offsetY);
+      let newPos = { x: stagePos.x + offsetX, y: stagePos.y + offsetY };
+      if (newPos.x > 15 || newPos.x < -700) {
+        newPos.x = stagePos.x;
+      }
+
+      if (newPos.y > 15 || newPos.y < -621) {
+        newPos.y = stagePos.y;
+      }
+      stage.position(newPos);
       stage.batchDraw();
 
       calculateVisibleArea(stage, newScale);
@@ -231,12 +240,19 @@ function CanvasStage() {
       const dx = newCenter.x - lastCenter.x;
       const dy = newCenter.y - lastCenter.y;
 
-      const newPos = {
+      let newPos = {
         x: stage.x() + dx,
         y: stage.y() + dy,
       };
+      if (newPos.x > 15 || newPos.x < -700) {
+        newPos.x = stage.x();
+      }
 
-      // stage.position(newPos);
+      if (newPos.y > 15 || newPos.y < -621) {
+        newPos.y = stage.y();
+      }
+      stage.position(newPos);
+
       stage.batchDraw();
 
       lastCenter = newCenter;

@@ -172,16 +172,10 @@ function CanvasStage() {
 
   // scale logic for mobile
   const handleMultiTouch = (e: any) => {
-    e.evt.preventDefault();
-
     const touch1 = e.evt.touches[0];
     const touch2 = e.evt.touches[1];
     const stage = e.target.getStage();
     if (touch1 && touch2) {
-      if (stage.isDragging()) {
-        stage.stopDrag();
-      }
-
       const p1 = {
         x: touch1.clientX,
         y: touch1.clientY,
@@ -200,7 +194,7 @@ function CanvasStage() {
       }
 
       const scaleChange = dist / lastDist;
-      const newScale =
+      let newScale =
         stage.scaleX() * scaleChange >= maxScale
           ? maxScale
           : stage.scaleX() * scaleChange <= windowArea.minScale
@@ -209,7 +203,7 @@ function CanvasStage() {
       if (newScale > MAX_SCALE || newScale < MIN_SCALE) {
         return;
       }
-
+      newScale *= 1.1;
       const stagePos = stage.position();
 
       // Scale the stage from the center of the pinch
@@ -217,7 +211,7 @@ function CanvasStage() {
       const offsetY = (newCenter.y - stagePos.y) * (1 - scaleChange);
 
       stage.scale({ x: newScale, y: newScale });
-      stage.position({ x: stagePos.x + offsetX, y: stagePos.y + offsetY });
+      // stage.position({ x: stagePos.x + offsetX, y: stagePos.y + offsetY });
       stage.batchDraw();
 
       calculateVisibleArea(stage, newScale);
@@ -225,10 +219,6 @@ function CanvasStage() {
       setNewScale(newScale);
       lastDist = dist;
     } else if (touch1 && !touch2) {
-      if (stage.isDragging()) {
-        stage.stopDrag();
-      }
-
       const newCenter = {
         x: touch1.clientX,
         y: touch1.clientY,
@@ -247,7 +237,7 @@ function CanvasStage() {
         y: stage.y() + dy,
       };
 
-      stage.position(newPos);
+      // stage.position(newPos);
       stage.batchDraw();
 
       lastCenter = newCenter;
@@ -465,6 +455,7 @@ function CanvasStage() {
           ? { backgroundColor: "white" }
           : { backgroundColor: "rgb(243, 244, 246, 1)" }
       }
+      draggable={dragEnabled}
     >
       <Stage
         id="stage"
@@ -493,7 +484,7 @@ function CanvasStage() {
         }}
         scaleX={scale}
         scaleY={scale}
-        draggable={true}
+        draggable={dragEnabled}
         dragBoundFunc={calculateAllowedCanvasDragPositions}
         offsetX={-0.28}
         offsetY={-0.28}

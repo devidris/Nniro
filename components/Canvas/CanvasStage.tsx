@@ -461,8 +461,8 @@ function CanvasStage() {
       className="absolute mt-[80px] max-h-[calc(100vh-80px) z-[19] inset-0 h-full w-full "
       style={
         scale >= 6 || newScale > 2
-          ? { backgroundColor: "white" }
-          : { backgroundColor: "rgb(243, 244, 246, 1)" }
+          ? { backgroundImage: `url('${fullPxImage}')` }
+          : { backgroundImage: `url('${fullPxImage}')` }
       }
     >
       <Stage

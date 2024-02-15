@@ -203,7 +203,6 @@ function CanvasStage() {
       if (newScale > MAX_SCALE || newScale < MIN_SCALE) {
         return;
       }
-      newScale *= 1.1;
       const stagePos = stage.position();
 
       // Scale the stage from the center of the pinch

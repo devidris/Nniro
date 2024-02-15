@@ -174,8 +174,8 @@ function CanvasStage() {
   const handleMultiTouch = (e: any) => {
     e.evt.preventDefault();
 
-    var touch1 = e.evt.touches[0];
-    var touch2 = e.evt.touches[1];
+    const touch1 = e.evt.touches[0];
+    const touch2 = e.evt.touches[1];
     const stage = e.target.getStage();
 
     if (touch1 && touch2) {
@@ -183,74 +183,45 @@ function CanvasStage() {
         stage.stopDrag();
       }
 
-      var p1 = {
+      const p1 = {
         x: touch1.clientX,
         y: touch1.clientY,
       };
-      var p2 = {
+      const p2 = {
         x: touch2.clientX,
         y: touch2.clientY,
       };
 
-      if (!lastCenter) {
-        lastCenter = getCenter(p1, p2);
-        return;
-      }
-      var newCenter = getCenter(p1, p2);
-
-      var dist = getDistance(p1, p2);
+      const newCenter = getCenter(p1, p2);
+      const dist = getDistance(p1, p2);
 
       if (!lastDist) {
         lastDist = dist;
+        return;
       }
 
-      // local coordinates of center point
-      var pointTo = {
-        x: (newCenter.x - stage.x()) / stage.scaleX(),
-        y: (newCenter.y - stage.y()) / stage.scaleX(),
-      };
+      const scaleChange = dist / lastDist;
+      const newScale = stage.scaleX() * scaleChange;
 
-      var distChange = Math.abs(dist - lastDist);
-
-      // Set a threshold for distance change to avoid small fluctuations
-      if (distChange > ZOOM_THRESHOLD) {
-        var scale =
-          dist > lastDist
-            ? stage.scaleX() * (dist / lastDist) > MAX_SCALE
-              ? MAX_SCALE
-              : stage.scaleX() * (dist / lastDist)
-            : stage.scaleX() * (dist / lastDist) < MIN_SCALE
-            ? MIN_SCALE
-            : stage.scaleX() * (dist / lastDist);
-        if (dist > lastDist) {
-          scale *= 1.15;
-        } else {
-          scale /= 1.15;
-        }
-        stage.scaleX(scale);
-        stage.scaleY(scale);
-
-        // calculate new position of the stage
-        var dx = newCenter.x - lastCenter.x;
-        var dy = newCenter.y - lastCenter.y;
-
-        var newPos = {
-          x: newCenter.x - pointTo.x * scale + dx,
-          y: newCenter.y - pointTo.y * scale + dy,
-        };
-
-        stage.position(newPos);
-        stage.batchDraw();
-
-        calculateVisibleArea(stage, scale);
-
-        setNewScale(scale);
-
-        lastDist = dist;
-        lastCenter = newCenter;
+      if (newScale > MAX_SCALE || newScale < MIN_SCALE) {
+        return;
       }
-    }
-    if (touch1 && !touch2) {
+
+      const stagePos = stage.position();
+
+      // Scale the stage from the center of the pinch
+      const offsetX = (newCenter.x - stagePos.x) * (1 - scaleChange);
+      const offsetY = (newCenter.y - stagePos.y) * (1 - scaleChange);
+
+      stage.scale({ x: newScale, y: newScale });
+      stage.position({ x: stagePos.x + offsetX, y: stagePos.y + offsetY });
+      stage.batchDraw();
+
+      calculateVisibleArea(stage, newScale);
+
+      setNewScale(newScale);
+      lastDist = dist;
+    } else if (touch1 && !touch2) {
       if (stage.isDragging()) {
         stage.stopDrag();
       }
@@ -272,6 +243,7 @@ function CanvasStage() {
         x: stage.x() + dx,
         y: stage.y() + dy,
       };
+
       stage.position(newPos);
       stage.batchDraw();
 

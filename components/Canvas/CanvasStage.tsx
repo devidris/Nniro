@@ -202,9 +202,6 @@ function CanvasStage() {
 
       const scaleChange = dist / lastDist;
       const newScale = stage.scaleX() * scaleChange;
-      if (newScale > 1) {
-        return;
-      }
       if (newScale > MAX_SCALE || newScale < MIN_SCALE) {
         return;
       }
@@ -552,25 +549,6 @@ function CanvasStage() {
               stroke={"rgb(37 99 235 / 1)"}
             />
           )}
-          {/* Border on canvas */}
-          <Line
-            id="no-action"
-            strokeWidth={0.2}
-            closed={false}
-            points={[
-              0 - 0.2,
-              0 - 0.2,
-              0 + 0.2 + lengthToBorder,
-              0 - 0.2,
-              0 + 0.2 + lengthToBorder,
-              0 + 0.2 + lengthToBorder,
-              0 - 0.2,
-              0 + 0.2 + lengthToBorder,
-              0 - 0.2,
-              0 - 0.3,
-            ]}
-            stroke={"rgb(0 0 0 / 0.5)"}
-          />
         </Layer>
       </Stage>
     </div>

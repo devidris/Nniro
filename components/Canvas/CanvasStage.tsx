@@ -177,7 +177,6 @@ function CanvasStage() {
     const touch1 = e.evt.touches[0];
     const touch2 = e.evt.touches[1];
     const stage = e.target.getStage();
-
     if (touch1 && touch2) {
       if (stage.isDragging()) {
         stage.stopDrag();
@@ -201,7 +200,12 @@ function CanvasStage() {
       }
 
       const scaleChange = dist / lastDist;
-      const newScale = stage.scaleX() * scaleChange;
+      const newScale =
+        stage.scaleX() * scaleChange >= maxScale
+          ? maxScale
+          : stage.scaleX() * scaleChange <= windowArea.minScale
+          ? 1
+          : stage.scaleX() * scaleChange;
       if (newScale > MAX_SCALE || newScale < MIN_SCALE) {
         return;
       }
@@ -282,7 +286,6 @@ function CanvasStage() {
         : calcScale <= windowArea.minScale
         ? windowArea.minScale
         : calcScale;
-
     let scaledPointerArea = {
       x:
         -(mousePointTo.x - Number(stage.getPointerPosition()?.x) / newScale) *
@@ -291,7 +294,6 @@ function CanvasStage() {
         -(mousePointTo.y - Number(stage.getPointerPosition()?.y) / newScale) *
         newScale,
     };
-
     if (e.evt.deltaY > 0) {
       scaledPointerArea = {
         x:
@@ -457,13 +459,12 @@ function CanvasStage() {
   return (
     <div
       ref={containerRef}
-      className="absolute mt-[80px] z-[19] inset-0 "
-      style={{
-        width: "110vw",
-        height: "110vh",
-        backgroundColor:
-          scale >= 6 || newScale > 2 ? "white" : "rgba(243, 244, 246, 1)",
-      }}
+      className="absolute mt-[80px] max-h-[calc(100vh-80px) z-[19] inset-0 h-full w-full "
+      style={
+        scale >= 6 || newScale > 2
+          ? { backgroundColor: "white" }
+          : { backgroundColor: "rgb(243, 244, 246, 1)" }
+      }
     >
       <Stage
         id="stage"
@@ -492,7 +493,7 @@ function CanvasStage() {
         }}
         scaleX={scale}
         scaleY={scale}
-        draggable={dragEnabled}
+        draggable={true}
         dragBoundFunc={calculateAllowedCanvasDragPositions}
         offsetX={-0.28}
         offsetY={-0.28}

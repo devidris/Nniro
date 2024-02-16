@@ -249,7 +249,7 @@ function CanvasStage() {
         newPos.x = stage.x();
       }
 
-      if (newPos.y > 300 || newPos.y < -600) {
+      if (newPos.y > 300 || newPos.y < -300) {
         newPos.y = stage.y();
       }
       stage.position(newPos);

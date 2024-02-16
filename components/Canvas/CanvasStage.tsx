@@ -209,24 +209,22 @@ function CanvasStage() {
       const offsetX = (newCenter.x - stagePos.x) * (1 - scaleChange);
       const offsetY = (newCenter.y - stagePos.y) * (1 - scaleChange);
 
-      stage.scale({ x: newScale, y: newScale });
-      // let newPos = { x: stagePos.x + offsetX, y: stagePos.y + offsetY };
+      let newPos = { x: stagePos.x + offsetX, y: stagePos.y + offsetY };
 
-      // if (newPos.x > 300 || newPos.x < -980) {
-      //   newPos.x = stagePos.x;
-      // }
+      if (newPos.x > 300 || newPos.x < -980) {
+        newPos.x = stagePos.x;
+      }
 
-      // if (newPos.y > 300 || newPos.y < -700) {
-      //   newPos.y = stagePos.y;
-      // }
+      if (newPos.y > 300 || newPos.y < -700) {
+        newPos.y = stagePos.y;
+      }
       // console.log(newPos);
-      let newPos = { x: stagePos.x, y: stagePos.y };
-      stage.position(newPos);
       stage.batchDraw();
 
       calculateVisibleArea(stage, newScale);
 
       setNewScale(newScale);
+      stage.position(newPos);
       lastDist = dist;
     } else if (touch1 && !touch2) {
       const newCenter = {

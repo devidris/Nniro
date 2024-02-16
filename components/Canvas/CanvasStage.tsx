@@ -176,7 +176,9 @@ function CanvasStage() {
     const touch2 = e.evt.touches[1];
     const stage = e.target.getStage();
     const oldScale = stage.scaleX();
+    console.log(1);
     if (touch1 && touch2) {
+      console.log(2);
       if (stage.isDragging()) {
         stage.stopDrag();
       }
@@ -243,14 +245,16 @@ function CanvasStage() {
         x: stage.x() + dx,
         y: stage.y() + dy,
       };
-      console.log(newPos);
-      if (newPos.x > 300 || newPos.x < -300) {
-        newPos.x = stage.x();
+      if (stage.scaleX() <= 2) {
+        if (newPos.x > 300 || newPos.x < -300) {
+          newPos.x = stage.x();
+        }
+        if (newPos.y > 300 || newPos.y < -400) {
+          newPos.y = stage.y();
+        }
+      } else {
       }
 
-      if (newPos.y > 300 || newPos.y < -400) {
-        newPos.y = stage.y();
-      }
       stage.position(newPos);
 
       stage.batchDraw();

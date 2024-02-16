@@ -514,8 +514,8 @@ function CanvasStage() {
               opacity={0.8}
               x={0}
               y={0}
-              width={1000}
-              height={1000}
+              width={windowArea.width}
+              height={Number(windowArea.height) - 50}
               image={fullPxImage}
               alt=""
             />

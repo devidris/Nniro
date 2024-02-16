@@ -210,17 +210,18 @@ function CanvasStage() {
       const offsetY = (newCenter.y - stagePos.y) * (1 - scaleChange);
 
       stage.scale({ x: newScale, y: newScale });
-      let newPos = { x: stagePos.x + offsetX, y: stagePos.y + offsetY };
-      let shouldMove = false;
-      if (newPos.x > 300 || newPos.x < -980) {
-        newPos.x = stagePos.x;
-      }
+      // let newPos = { x: stagePos.x + offsetX, y: stagePos.y + offsetY };
 
-      if (newPos.y > 300 || newPos.y < -700) {
-        newPos.y = stagePos.y;
-      }
+      // if (newPos.x > 300 || newPos.x < -980) {
+      //   newPos.x = stagePos.x;
+      // }
+
+      // if (newPos.y > 300 || newPos.y < -700) {
+      //   newPos.y = stagePos.y;
+      // }
       // console.log(newPos);
-      // stage.position(newPos);
+      let newPos = { x: stagePos.x, y: stagePos.y };
+      stage.position(newPos);
       stage.batchDraw();
 
       calculateVisibleArea(stage, newScale);

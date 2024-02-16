@@ -212,11 +212,11 @@ function CanvasStage() {
       stage.scale({ x: newScale, y: newScale });
       console.log(stagePos.x + offsetX, stagePos.y + offsetY);
       let newPos = { x: stagePos.x + offsetX, y: stagePos.y + offsetY };
-      if (newPos.x > 15 || newPos.x < -700) {
+      if (newPos.x > 100 || newPos.x < -780) {
         newPos.x = stagePos.x;
       }
 
-      if (newPos.y > 15 || newPos.y < -621) {
+      if (newPos.y > 100 || newPos.y < -700) {
         newPos.y = stagePos.y;
       }
       stage.position(newPos);
@@ -244,11 +244,12 @@ function CanvasStage() {
         x: stage.x() + dx,
         y: stage.y() + dy,
       };
-      if (newPos.x > 15 || newPos.x < -700) {
+      console.log(newPos);
+      if (newPos.x > 100 || newPos.x < -780) {
         newPos.x = stage.x();
       }
 
-      if (newPos.y > 15 || newPos.y < -621) {
+      if (newPos.y > 100 || newPos.y < -700) {
         newPos.y = stage.y();
       }
       stage.position(newPos);

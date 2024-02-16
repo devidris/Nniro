@@ -211,6 +211,7 @@ function CanvasStage() {
 
       stage.scale({ x: newScale, y: newScale });
       let newPos = { x: stagePos.x + offsetX, y: stagePos.y + offsetY };
+      let shouldMove = false;
       if (newPos.x > 300 || newPos.x < -980) {
         newPos.x = stagePos.x;
       }
@@ -218,7 +219,8 @@ function CanvasStage() {
       if (newPos.y > 300 || newPos.y < -700) {
         newPos.y = stagePos.y;
       }
-      stage.position(newPos);
+      // console.log(newPos);
+      // stage.position(newPos);
       stage.batchDraw();
 
       calculateVisibleArea(stage, newScale);
@@ -242,7 +244,6 @@ function CanvasStage() {
         x: stage.x() + dx,
         y: stage.y() + dy,
       };
-      console.log(newPos, touch1);
       if (newPos.x > 300 || newPos.x < -980) {
         newPos.x = stage.x();
       }
